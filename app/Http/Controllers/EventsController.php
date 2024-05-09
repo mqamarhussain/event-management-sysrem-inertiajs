@@ -56,7 +56,7 @@ class EventsController extends Controller
 
     public function show(Event $event): Response
     {
-        $this->authorize('view', Event::class);
+        $this->authorize('view', [$event, Event::class]);
 
         $eventData = $event->only([
             'id', 'venue_id', 'venue.venue', 'event', 'description', 'event_date', 'type', 'audience_capacity', 'payment_type',
