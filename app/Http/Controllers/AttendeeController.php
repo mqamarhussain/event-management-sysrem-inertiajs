@@ -54,6 +54,7 @@ class AttendeeController extends Controller
 
     public function show(Event $event): Response
     {
+        abort_if($event->type == '2', 403);
         $eventData = $event->only([
             'id', 'venue_id', 'venue.venue', 'event', 'description', 'event_date', 'type', 'audience_capacity', 'payment_type', 'amount', 'banner', 'banner'
         ]);
@@ -68,6 +69,8 @@ class AttendeeController extends Controller
 
     public function participate(Event $event)
     {
+        abort_if($event->type == '2', 403);
+
         $eventData = $event->only([
             'id', 'amount'
         ]);

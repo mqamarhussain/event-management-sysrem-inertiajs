@@ -11,7 +11,15 @@ class DashboardController extends Controller
 {
     public function index(): Response
     {
-        $events = Event::query()->get();
+        $user = auth()->user();
+        $query = Event::query();
+        if ($user->hasRole('Promoter')) {
+            $query->where('promoter_id', $user->id);
+        } else {
+            $query->where('type', '1');
+        }
+
+        $events = $query->get();
         $res = [];
         foreach ($events as $event) {
             $res[] = [
