@@ -34,3 +34,6 @@
 .form-error {
   @apply text-red-700 mt-2 text-sm;
 }
+.vs__dropdown-toggle{
+    padding: 0.3rem;
+}

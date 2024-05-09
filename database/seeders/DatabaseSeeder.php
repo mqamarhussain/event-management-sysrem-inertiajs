@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
-use App\Models\Contact;
-use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,26 +12,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $account = Account::create(['name' => 'Acme Corporation']);
-
         User::factory()->create([
-            'account_id' => $account->id,
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'secret',
-            'owner' => true,
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => 'admin@mail.com',
+            'password' => 'password',
+        ]);
+        User::factory()->create([
+            'first_name' => 'Promoter',
+            'last_name' => 'Promoter',
+            'email' => 'promoter@mail.com',
+            'password' => 'password',
         ]);
 
-        User::factory(5)->create(['account_id' => $account->id]);
-
-        $organizations = Organization::factory(100)
-            ->create(['account_id' => $account->id]);
-
-        Contact::factory(100)
-            ->create(['account_id' => $account->id])
-            ->each(function ($contact) use ($organizations) {
-                $contact->update(['organization_id' => $organizations->random()->id]);
-            });
+        User::factory(5)->create();
+        $this->call(RolesSeeder::class);
+        $this->call(VenueSeeder::class);
+        $this->call(EventSeeder::class);
+        $this->call(AttendeeRequestSeeder::class);
     }
 }
